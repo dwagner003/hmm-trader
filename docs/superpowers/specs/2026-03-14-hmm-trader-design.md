@@ -129,7 +129,7 @@ This produces smoother transitions and avoids whipsawing.
 
 ### Daily Data Flow
 
-1. At ~3:15 PM ET (before MOC order cutoff), fetch latest intraday prices for all ETFs
+1. At ~3:30 PM ET (job start, before MOC order cutoff), fetch latest intraday prices for all ETFs
 2. Compute derived features (log returns, rolling volatility, spread)
 3. Append to local data store
 4. Feed observation window to HMM
