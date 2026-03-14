@@ -1,0 +1,36 @@
+mode: backtest
+
+etf_universe:
+  - SPY
+  - QQQ
+  - IWM
+  - TLT
+  - GLD
+  - SHY
+
+hmm:
+  n_states: 3
+  training_window_years: 3
+  retrain_frequency: monthly
+
+allocation:
+  bull:  { SPY: 0.35, QQQ: 0.30, IWM: 0.15, TLT: 0.05, GLD: 0.05, SHY: 0.10 }
+  sideways: { SPY: 0.15, QQQ: 0.10, IWM: 0.05, TLT: 0.25, GLD: 0.20, SHY: 0.25 }
+  bear: { SPY: 0.00, QQQ: 0.00, IWM: 0.00, TLT: 0.35, GLD: 0.30, SHY: 0.35 }
+
+risk:
+  cash_floor: 0.10
+  max_position_pct: 0.40
+  rebalance_threshold_pp: 0.05
+  max_daily_turnover: 0.50
+  drawdown_circuit_breaker: 0.15
+
+schedule:
+  rebalance_time: "15:30"
+  timezone: "US/Eastern"
+
+backtest:
+  start_date: "2016-01-01"
+  end_date: null
+  initial_capital: 10000
+  transaction_cost: 1.0
