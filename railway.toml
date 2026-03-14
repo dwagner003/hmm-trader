@@ -1,0 +1,9 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Railway cron: run at 3:30 PM ET on weekdays
+# Use 19:30 UTC (correct for EDT, Mar-Nov). During EST (Nov-Mar) this is 2:30 PM ET,
+# which is still before the 3:45 PM MOC cutoff.
+cronSchedule = "30 19 * * 1-5"
