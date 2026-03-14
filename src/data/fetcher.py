@@ -23,19 +23,29 @@ def fetch_prices(
     if raw.empty:
         return pd.DataFrame(columns=["date", "ticker", "open", "high", "low", "close", "volume"])
 
-    # Normalize columns: yfinance may return MultiIndex or flat columns
+    # Normalize columns: yfinance may return MultiIndex or flat columns.
+    # Newer yfinance (>=0.2.50) returns MultiIndex with names ['Ticker', 'Price']
+    # (ticker at level 0). Older versions used ('Price', 'Ticker') ordering with
+    # ticker at level 1. Flat columns can appear for single-ticker in very old versions.
     if isinstance(raw.columns, pd.MultiIndex):
-        pass  # already MultiIndex
+        # Detect which level holds the ticker names
+        col_names = raw.columns.names  # e.g. ['Ticker', 'Price'] or [None, None]
+        if col_names[0] == "Ticker":
+            ticker_level = 0
+        else:
+            # Old format: Price at level 0, Ticker at level 1
+            ticker_level = 1
     else:
-        # Flat columns for single ticker: convert to MultiIndex
+        # Flat columns for single ticker: convert to MultiIndex (old-style, ticker at level 1)
         raw.columns = pd.MultiIndex.from_tuples(
             [(col, tickers[0]) for col in raw.columns]
         )
+        ticker_level = 1
 
     records = []
     for ticker in tickers:
         try:
-            ticker_data = raw.xs(ticker, level=1, axis=1)
+            ticker_data = raw.xs(ticker, level=ticker_level, axis=1)
         except KeyError:
             continue
         for date_val, row in ticker_data.iterrows():
