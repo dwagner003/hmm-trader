@@ -1875,6 +1875,7 @@ def test_backtest_returns_results(backtest_config, backtest_prices, tmp_data_dir
     assert "equity_curve" in results
     assert "trade_log" in results
     assert "regime_history" in results
+    assert "win_rate" in results
 
 
 def test_backtest_equity_curve_starts_at_initial_capital(
@@ -2441,7 +2442,7 @@ def format_weekly_summary_email(
     regime_probs: dict[str, float],
     holdings: dict[str, float],
 ) -> str:
-    """Format a weekly summary email body (sent on Sundays)."""
+    """Format a weekly summary email body (sent on Fridays, end of trading week)."""
     lines = [
         "Weekly Summary",
         "=" * 40,
