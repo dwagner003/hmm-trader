@@ -223,7 +223,7 @@ def cmd_run(config):
                 )
 
         store.save_snapshot(
-            date=str(today), total_value=total_value, cash=cash, holdings=holdings,
+            date=str(today), total_value=total_value, cash=cash, holdings_dict=holdings,
         )
 
         # Weekly summary on Fridays
