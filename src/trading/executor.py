@@ -31,11 +31,16 @@ if _HAS_IBAPI:
             self.cash = 0.0
             self.order_fills = {}  # type: Dict[int, dict]
             self._next_order_id = None  # type: Optional[int]
+            self._account_id = None  # type: Optional[str]
             self._position_done = threading.Event()
             self._account_done = threading.Event()
 
         def nextValidId(self, orderId):
             self._next_order_id = orderId
+
+        def managedAccounts(self, accountsList):
+            # Store first account ID for use in reqAccountUpdates
+            self._account_id = accountsList.strip().split(",")[0]
 
         def position(self, account, contract, pos, avgCost):
             self.positions[contract.symbol] = float(pos)
@@ -87,11 +92,25 @@ def get_positions_and_cash(app):
     app.cash = 0.0
     app._position_done.clear()
     app._account_done.clear()
+
+    # Wait for account ID to be received
+    timeout = 5
+    while app._account_id is None and timeout > 0:
+        time.sleep(0.5)
+        timeout -= 0.5
+
+    account_id = app._account_id or ""
+
+    # Request positions
     app.reqPositions()
     app._position_done.wait(timeout=10)
-    app.reqAccountUpdates(True, "")
+
+    # Request account data with explicit account ID
+    app.reqAccountUpdates(True, account_id)
     app._account_done.wait(timeout=10)
-    app.reqAccountUpdates(False, "")
+    app.reqAccountUpdates(False, account_id)
+
+    logger.info("Account %s: cash=$%.2f, positions=%s", account_id, app.cash, app.positions)
     return app.positions, app.cash
 
 

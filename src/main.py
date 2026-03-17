@@ -217,8 +217,11 @@ def cmd_run(config):
                        format_rebalance_email(regime_probs, [], total_value))
             return
 
-        target_weights = check_turnover(current_weights, target_weights,
-                                        config["risk"]["max_daily_turnover"])
+        # Skip turnover cap on initial deployment (no existing positions)
+        has_positions = any(v > 0 for k, v in current_weights.items() if k != "_cash")
+        if has_positions:
+            target_weights = check_turnover(current_weights, target_weights,
+                                            config["risk"]["max_daily_turnover"])
 
         orders = compute_orders(holdings, target_weights, latest_prices, total_value)
         if orders:
