@@ -13,25 +13,25 @@ hmm:
   training_window_years: 3
   retrain_frequency: monthly
 
-# Equity Heavy: always maintain equity exposure, only reduce in bear
+# Aggressive: heavy equities in bull, still defensive in bear
 allocation:
-  bull:     { SPY: 0.45, QQQ: 0.35, IWM: 0.15, TLT: 0.00, GLD: 0.00, SHY: 0.05 }
-  sideways: { SPY: 0.35, QQQ: 0.25, IWM: 0.10, TLT: 0.10, GLD: 0.10, SHY: 0.10 }
-  bear:     { SPY: 0.15, QQQ: 0.10, IWM: 0.05, TLT: 0.25, GLD: 0.25, SHY: 0.20 }
+  bull:     { SPY: 0.45, QQQ: 0.35, IWM: 0.10, TLT: 0.00, GLD: 0.00, SHY: 0.10 }
+  sideways: { SPY: 0.30, QQQ: 0.25, IWM: 0.10, TLT: 0.15, GLD: 0.10, SHY: 0.10 }
+  bear:     { SPY: 0.00, QQQ: 0.00, IWM: 0.00, TLT: 0.40, GLD: 0.35, SHY: 0.25 }
 
 risk:
   cash_floor: 0.05
   max_position_pct: 0.50
   rebalance_threshold_pp: 0.05
   max_daily_turnover: 0.50
-  drawdown_circuit_breaker: 0.25
+  drawdown_circuit_breaker: 0.20
 
 schedule:
   rebalance_time: "15:30"
   timezone: "US/Eastern"
 
 backtest:
-  start_date: "2016-01-01"
+  start_date: "2019-01-01"
   end_date: null
   initial_capital: 10000
   transaction_cost: 1.0
