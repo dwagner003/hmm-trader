@@ -1,0 +1,37 @@
+mode: backtest
+
+etf_universe:
+  - SPY
+  - QQQ
+  - IWM
+  - TLT
+  - GLD
+  - SHY
+
+hmm:
+  n_states: 3
+  training_window_years: 2
+  retrain_frequency: monthly
+
+# Momentum: go all-in on equities in bull, all-out in bear, quick to switch
+allocation:
+  bull:     { SPY: 0.40, QQQ: 0.40, IWM: 0.15, TLT: 0.00, GLD: 0.00, SHY: 0.05 }
+  sideways: { SPY: 0.20, QQQ: 0.20, IWM: 0.05, TLT: 0.20, GLD: 0.15, SHY: 0.20 }
+  bear:     { SPY: 0.00, QQQ: 0.00, IWM: 0.00, TLT: 0.30, GLD: 0.40, SHY: 0.30 }
+
+risk:
+  cash_floor: 0.05
+  max_position_pct: 0.50
+  rebalance_threshold_pp: 0.03
+  max_daily_turnover: 0.60
+  drawdown_circuit_breaker: 0.25
+
+schedule:
+  rebalance_time: "15:30"
+  timezone: "US/Eastern"
+
+backtest:
+  start_date: "2019-01-01"
+  end_date: null
+  initial_capital: 10000
+  transaction_cost: 1.0

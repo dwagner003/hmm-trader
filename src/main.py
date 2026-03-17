@@ -11,6 +11,16 @@ import logging
 import os
 import sys
 from datetime import date
+from pathlib import Path
+
+# Load .env file if present
+try:
+    from dotenv import load_dotenv
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+except ImportError:
+    pass
 
 from src.config import load_config
 from src.data.fetcher import fetch_prices, backfill_history

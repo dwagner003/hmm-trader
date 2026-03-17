@@ -31,7 +31,7 @@ schedule:
   timezone: "US/Eastern"
 
 backtest:
-  start_date: "2016-01-01"
+  start_date: "2019-01-01"
   end_date: null
   initial_capital: 10000
   transaction_cost: 1.0

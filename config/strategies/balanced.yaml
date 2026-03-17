@@ -1,0 +1,37 @@
+mode: backtest
+
+etf_universe:
+  - SPY
+  - QQQ
+  - IWM
+  - TLT
+  - GLD
+  - SHY
+
+hmm:
+  n_states: 3
+  training_window_years: 3
+  retrain_frequency: monthly
+
+# Balanced: moderate equities across regimes, smooth transitions
+allocation:
+  bull:     { SPY: 0.40, QQQ: 0.30, IWM: 0.10, TLT: 0.05, GLD: 0.05, SHY: 0.10 }
+  sideways: { SPY: 0.25, QQQ: 0.15, IWM: 0.05, TLT: 0.20, GLD: 0.15, SHY: 0.20 }
+  bear:     { SPY: 0.05, QQQ: 0.05, IWM: 0.00, TLT: 0.35, GLD: 0.30, SHY: 0.25 }
+
+risk:
+  cash_floor: 0.08
+  max_position_pct: 0.45
+  rebalance_threshold_pp: 0.05
+  max_daily_turnover: 0.50
+  drawdown_circuit_breaker: 0.18
+
+schedule:
+  rebalance_time: "15:30"
+  timezone: "US/Eastern"
+
+backtest:
+  start_date: "2019-01-01"
+  end_date: null
+  initial_capital: 10000
+  transaction_cost: 1.0
