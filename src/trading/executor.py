@@ -113,6 +113,8 @@ def submit_moc_orders(app, orders):
         order.totalQuantity = int(order_spec["shares"])
         order.orderType = "MOC"
         order.tif = "DAY"
+        order.eTradeOnly = ""
+        order.firmQuoteOnly = ""
 
         order_id = app._next_order_id
         app._next_order_id += 1
